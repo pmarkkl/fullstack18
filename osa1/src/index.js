@@ -20,6 +20,14 @@ const Yhteensa = (props) => {
 const Sisalto = (props) => {
     return (
         <div>
+            <Osa osa={props.osa} tehtavia={props.tehtavia} />
+        </div>
+    )
+}
+
+const Osa = (props) => {
+    return (
+        <div>
             <p>{props.osa} {props.tehtavia}</p>
         </div>
     )
