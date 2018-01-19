@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-
 const Button = ({ handleClick, text }) => {
     return (
         <button onClick={handleClick}>
@@ -9,8 +8,6 @@ const Button = ({ handleClick, text }) => {
         </button>
     )
 }
-
-
 
 const Statistic = ({ text, hyva, neutraali, huono }) => {
     const keskiarvo = ((hyva + (huono * -1)) / (hyva + neutraali + huono)).toFixed(1)
