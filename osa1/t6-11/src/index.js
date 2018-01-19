@@ -1,8 +1,65 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-class App extends React.Component {
 
+const Button = ( {handleClick, text} ) => {
+    console.log({text})
+    return (
+      <button onClick={handleClick}>
+        {text}
+      </button>
+    )
+  }
+
+
+
+const Statistic = ({ text, hyva, neutraali, huono }) => {
+    const keskiarvo = ((hyva + (huono * -1)) / (hyva + neutraali + huono)).toFixed(1)
+    const positiivisia = ((hyva / (hyva + neutraali + huono)) * 100).toFixed(1)
+    if (hyva === 0 && neutraali === 0 && huono === 0) {
+        return (
+            <div></div>
+        )
+    } else {
+        if (text === 'positiivisia') {
+            if (isNaN(positiivisia)) {
+                return <div>{text}: 0 %</div>
+            }
+            return <div>{text}: {positiivisia} %</div>;
+        } else {
+            if (isNaN(keskiarvo)) {
+                return <div>{text}: 0</div>;
+            }
+            return <div>{text}: {keskiarvo}</div>;
+        }
+    }
+}
+
+const Statistics = ({ hyva, neutraali, huono }) => {
+    if (hyva === 0 && neutraali === 0 && huono === 0) {
+        return (
+            <div>ei yhtään palautetta annettu</div>
+        )
+    } else {
+        return (
+            <div>
+                <p>hyvä: {hyva}</p>
+                <p>neutraali: {neutraali}</p>
+                <p>huono: {huono}</p>
+            </div>
+        )
+    }
+}
+
+const Otsikko = ({ otsikko }) => {
+    return (
+        <div>
+            <h1>{otsikko}</h1>
+        </div>
+    )
+}
+
+class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -31,20 +88,17 @@ class App extends React.Component {
     }
 
     render() {
-
         return (
-                <div>
-                    <h1>anna palautetta</h1>
-                    <button onClick={this.klikHyva}>hyvä</button>
-                    <button onClick={this.klikNeut}>neutraali</button>
-                    <button onClick={this.klikHuono}>huono</button>
-                    <h1>statistiikka</h1>
-                    <p>hyvä: {this.state.hyva}</p>
-                    <p>neutraali: {this.state.neutraali}</p>
-                    <p>huono: {this.state.huono}</p>
-                    <p>keskiarvo: {((this.state.hyva + (this.state.huono * -1)) / (this.state.hyva+this.state.neutraali+this.state.huono)).toFixed(1)}</p>
-                    <p>positiivisia: {((this.state.hyva / (this.state.hyva+this.state.neutraali+this.state.huono))*100).toFixed(1)} %</p>
-                </div>
+            <div>
+                <Otsikko otsikko='anna palautetta' />
+                <Button handleClick={this.klikHyva} text='hyvä' />
+                <Button handleClick={this.klikNeut} text='neutraali' />
+                <Button handleClick={this.klikHuono} text='huono' />
+                <Otsikko otsikko='statistiikka' />
+                <Statistics hyva={this.state.hyva} neutraali={this.state.neutraali} huono={this.state.huono} />
+                <Statistic text='keskiarvo' hyva={this.state.hyva} neutraali={this.state.neutraali} huono={this.state.huono} />
+                <Statistic text='positiivisia' hyva={this.state.hyva} neutraali={this.state.neutraali} huono={this.state.huono} />
+            </div>
         )
     }
 }
