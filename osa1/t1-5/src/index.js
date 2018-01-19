@@ -1,27 +1,71 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const App = () => {
-  const kurssi = 'Half Stack -sovelluskehitys'
-  const osa1 = 'Reactin perusteet'
-  const tehtavia1 = 10
-  const osa2 = 'Tiedonvälitys propseilla'
-  const tehtavia2 = 7
-  const osa3 = 'Komponenttien tila'
-  const tehtavia3 = 14
+const Otsikko = (props) => {
+    return (
+        <div>
+            <h1>{props.otsikko}</h1>
+        </div>
+    )
+}
 
-  return (
-    <div>
-      <h1>{kurssi}</h1>
-      <p>{osa1} {tehtavia1}</p>
-      <p>{osa2} {tehtavia2}</p>
-      <p>{osa3} {tehtavia3}</p>
-      <p>yhteensä {tehtavia1 + tehtavia2 + tehtavia3} tehtävää</p>
-    </div>
-  )
+const Sisalto = (props) => {
+    console.log('component Sisalto')
+    return (
+        <div>
+            <Osa osa={props.osat[0].nimi} tehtavia={props.osat[0].tehtavia} />
+            <Osa osa={props.osat[1].nimi} tehtavia={props.osat[1].tehtavia} />
+            <Osa osa={props.osat[2].nimi} tehtavia={props.osat[2].tehtavia} />
+        </div>
+    )
+}
+
+const Osa = (props) => {
+    console.log('component Osa')
+    return (
+        <div>
+            <p>{props.osa} {props.tehtavia}</p>
+        </div>
+    )
+}
+
+const Yhteensa = (props) => {
+    return (
+        <div>
+            <p>yhteensa {props.osat[0].tehtavia + props.osat[1].tehtavia + props.osat[2].tehtavia} tehtävää</p>
+        </div>
+    )
+}
+
+const App = () => {
+    const kurssi = {
+        nimi: 'Half Stack -sovelluskehitys',
+        osat: [
+            {
+                nimi: 'Reactin perusteet',
+                tehtavia: 10
+            },
+            {
+                nimi: 'Tiedonvälitys propseilla',
+                tehtavia: 7
+            },
+            {
+                nimi: 'Komponenttien tila',
+                tehtavia: 14
+            }
+        ]
+    }
+
+    return (
+        <div>
+            <Otsikko otsikko={kurssi.nimi} />
+            <Sisalto osat={kurssi.osat} />
+            <Yhteensa osat={kurssi.osat} />
+        </div>
+    )
 }
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('root')
+    <App />,
+    document.getElementById('root')
 )
