@@ -2,14 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 
-const Button = ( {handleClick, text} ) => {
-    console.log({text})
+const Button = ({ handleClick, text }) => {
     return (
-      <button onClick={handleClick}>
-        {text}
-      </button>
+        <button onClick={handleClick}>
+            {text}
+        </button>
     )
-  }
+}
 
 
 
@@ -69,31 +68,30 @@ class App extends React.Component {
         }
     }
 
-    klikHyva = () => {
-        this.setState({
-            hyva: this.state.hyva + 1
-        })
-    }
-
-    klikNeut = () => {
-        this.setState({
-            neutraali: this.state.neutraali + 1
-        })
-    }
-
-    klikHuono = () => {
-        this.setState({
-            huono: this.state.huono + 1
-        })
+    asetaArvoon = (teksti) => {
+        return () => {
+            if (teksti === 'hyvä') {
+                this.setState({ hyva: this.state.hyva + 1 })
+                console.log('hyvä on')
+            }
+            if (teksti === 'neutraali') {
+                this.setState({ neutraali: this.state.neutraali + 1 })
+                console.log('neutraali on')                
+            }
+            if (teksti === 'huono') {
+                this.setState({ huono: this.state.huono + 1 })
+                console.log('huono on')                
+            }           
+        }
     }
 
     render() {
         return (
             <div>
                 <Otsikko otsikko='anna palautetta' />
-                <Button handleClick={this.klikHyva} text='hyvä' />
-                <Button handleClick={this.klikNeut} text='neutraali' />
-                <Button handleClick={this.klikHuono} text='huono' />
+                <Button handleClick={this.asetaArvoon('hyvä')} text='hyvä' />
+                <Button handleClick={this.asetaArvoon('neutraali')} text='neutraali' />
+                <Button handleClick={this.asetaArvoon('huono')} text='huono' />
                 <Otsikko otsikko='statistiikka' />
                 <Statistics hyva={this.state.hyva} neutraali={this.state.neutraali} huono={this.state.huono} />
                 <Statistic text='keskiarvo' hyva={this.state.hyva} neutraali={this.state.neutraali} huono={this.state.huono} />
