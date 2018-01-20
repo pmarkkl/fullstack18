@@ -64,6 +64,8 @@ class App extends React.Component {
             huono: 0,
         }
     }
+    
+    // ideat loppuivat kesken, tällaisena sain toteutettua
 
     asetaArvoon = (teksti) => {
         return () => {
