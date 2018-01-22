@@ -14,7 +14,7 @@ class App extends React.Component {
         super(props)
         this.state = {
             selected: 0,
-            votes: [0,0,0,0,0,0],
+            votes: [0,0,0,0,0,0]
         }
     }
 
@@ -66,20 +66,20 @@ class App extends React.Component {
         return (
             <div>
                 <p>{this.props.anecdotes[indeksi]}</p>
-                <p>has {this.state.votes[indeksi]} {this.onkoYkkonen(indeksi)}</p>
+                {this.votes(indeksi)}
             </div>
         )
     }
 
-    votes() {
-        return <p>has {this.state.votes[this.state.selected]} {this.onkoYkkonen(this.state.selected)}</p>
+    votes(indeksi) {
+        return <p>has {this.state.votes[indeksi]} {this.onkoYkkonen(indeksi)}</p>
     }
 
     render() {
         return (
             <div>
                 <p>{this.props.anecdotes[this.state.selected]}</p>
-                {this.votes()}
+                {this.votes(this.state.selected)}
                 <button onClick={() => this.vote()}>vote</button>
                 <button onClick={() => this.klik()}>next anecdote</button>
                 <h1>anecdote with most votes given</h1>

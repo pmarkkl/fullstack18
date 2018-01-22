@@ -32,7 +32,7 @@ const Statistic = ({ text, lasku }) => {
 }
 
 const Statistics = ({ states }) => {
-    if (states[0] === 0 && states[1] === 0 && states[2] === 0) {
+    if (states[0].state === 0 && states[1].state === 0 && states[2].state === 0) {
         return (
             <div>ei yhtään palautetta annettu</div>
         )
@@ -43,15 +43,15 @@ const Statistics = ({ states }) => {
                     <tbody>
                         <tr>
                             <td style={tdStyle}>hyvä</td>
-                            <td>{states[0]}</td>
+                            <td>{states[0].state}</td>
                         </tr>
                         <tr>
                             <td style={tdStyle}>neutraali</td>
-                            <td>{states[1]}</td>
+                            <td>{states[1].state}</td>
                         </tr>
                         <tr>
                             <td style={tdStyle}>huono</td>
-                            <td>{states[2]}</td>
+                            <td>{states[2].state}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -92,9 +92,23 @@ class App extends React.Component {
 
 
     render() {
-        const states = [this.state.hyva, this.state.neutraali, this.state.huono]
-        const keskiarvo = ((states[0] + (states[2] * -1)) / (states[0] + states[1] + states[2])).toFixed(1)
-        const positiivisia = ((states[0] / (states[0] + states[1] + states[2]))*100).toFixed(1)
+        const states = [
+            {
+                text: 'hyvä',
+                state: this.state.hyva
+            },
+            {
+                text: 'neutraali',
+                state: this.state.neutraali
+            },
+            {
+                text: 'huono',
+                state: this.state.huono
+            }
+        ]
+
+        const keskiarvo = ((states[0].state + (states[2].state * -1)) / (states[0].state + states[1].state + states[2].state)).toFixed(1)
+        const positiivisia = ((states[0].state / (states[0].state + states[1].state + states[2].state))*100).toFixed(1)
         return (
             <div>
                 <Otsikko otsikko='anna palautetta' />
