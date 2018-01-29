@@ -1,1 +1,1 @@
-# kaikki puhelinluetteloon liittyvät tehtävät (t6-11 ja t14-19) kansiossa t6-11
+kaikki puhelinluetteloon liittyvät tehtävät (t6-11 ja t14-19) kansiossa t6-11
