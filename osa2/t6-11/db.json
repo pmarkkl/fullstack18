@@ -1,0 +1,49 @@
+{
+  "persons": [
+    {
+      "nimi": "Petteri Markkola",
+      "numero": "049289111",
+      "id": 1
+    },
+    {
+      "nimi": "Salama Härri",
+      "numero": "04183489",
+      "id": 9
+    },
+    {
+      "nimi": "Meikän Nick PepsiMax",
+      "numero": "034289222",
+      "id": 10
+    },
+    {
+      "nimi": "Kimmo Kivi",
+      "numero": "3432432432",
+      "id": 12
+    },
+    {
+      "nimi": "Mc Megaputti",
+      "numero": "0413832912",
+      "id": 13
+    },
+    {
+      "nimi": "Lassi Koivisto",
+      "numero": "390219302",
+      "id": 16
+    },
+    {
+      "nimi": "Väsynyt Jätkä",
+      "numero": "029390222",
+      "id": 17
+    },
+    {
+      "nimi": "Olisikohan T. Valmis",
+      "numero": "049920320",
+      "id": 18
+    },
+    {
+      "nimi": "Jami Kiviranta",
+      "numero": "023892111",
+      "id": 19
+    }
+  ]
+}
