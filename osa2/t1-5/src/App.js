@@ -50,10 +50,19 @@ const App = () => {
           id: 1
         }
       ]
+    },
+    {
+      nimi: 'Jeejee',
+      id: 4,
+      osat: [
+        {
+          nimi: 'Juu',
+          tehtavia: 10,
+          id: 1
+        }
+      ]
     }
   ]
-
-  console.log('render')
 
   return (
     <div>
