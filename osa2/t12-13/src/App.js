@@ -20,8 +20,8 @@ class App extends React.Component {
     }
   }
 
-  componentWillMount() {
-    console.log('will mount')
+  componentDidMount() {
+    console.log('did mount')
     axios
       .get('https://restcountries.eu/rest/v2/all')
       .then(response => {
