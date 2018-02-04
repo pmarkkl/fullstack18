@@ -17,11 +17,12 @@ class App extends React.Component {
     }
   }
 
-  componentWillMount() {
-    console.log('will mount')
+  componentDidMount() {
+    console.log('did mount')
     personsService
       .getAll()
       .then(response => {
+        console.log(response.data)
         console.log('promise fulfilled')
         this.setState({ persons: response.data })
       })
@@ -30,38 +31,38 @@ class App extends React.Component {
   addName = (event) => {
     event.preventDefault()
     const nimiObjekti = {
-      nimi: this.state.uusiNimi,
-      numero: this.state.uusiNumero
+      name: this.state.uusiNimi,
+      number: this.state.uusiNumero
     }
     /* lisää henkilö */
-    if (!this.state.persons.some(person => person.nimi === nimiObjekti.nimi)) {
+    if (!this.state.persons.some(person => person.name === nimiObjekti.name)) {
       personsService
         .create(nimiObjekti)
         .then(response => {
-          this.setState({persons: this.state.persons.concat(response.data), uusiNimi: '', uusiNumero: '', message: `Henkilö ${nimiObjekti.nimi} lisätty`})
+          this.setState({persons: this.state.persons.concat(response.data), uusiNimi: '', uusiNumero: '', message: `Henkilö ${nimiObjekti.name} lisätty`})
         })
         this.timeOut()
     /* päivitä henkilö */
     } else {
-      const rightPerson = this.state.persons.find(person => person.nimi === nimiObjekti.nimi)
-      window.confirm(`${nimiObjekti.nimi} on jo luettelossa, korvataanko numero?`)
+      const rightPerson = this.state.persons.find(person => person.name === nimiObjekti.name)
+      window.confirm(`${nimiObjekti.name} on jo luettelossa, korvataanko numero?`)
       personsService
         .update(rightPerson.id, nimiObjekti)
         .then(response => {
           personsService
           .getAll()
           .then(response => {
-            this.setState({ persons: response.data, uusiNimi: '', uusiNumero: '', message: `Henkilön ${rightPerson.nimi} numero päivitetty`})
+            this.setState({ persons: response.data, uusiNimi: '', uusiNumero: '', message: `Henkilön ${rightPerson.name} numero päivitetty`})
           })
         })
         /* erroria pukkaa: henkilö poistettu toisessa paikassa, lisätään uusiksi */
         .catch(error => {
           /* filteröidään nimen perusteella (???) */
-          this.setState({ persons: this.state.persons.filter(person => person.nimi !== nimiObjekti.nimi) })       
+          this.setState({ persons: this.state.persons.filter(person => person.name !== nimiObjekti.name) })       
           personsService
             .create(nimiObjekti)
             .then(response => {
-              this.setState({persons: this.state.persons.concat(response.data), message: `Henkilö ${nimiObjekti.nimi} oli poistettu palvelimelta, lisättiin uudestaan`, 
+              this.setState({persons: this.state.persons.concat(response.data), message: `Henkilö ${nimiObjekti.name} oli poistettu palvelimelta, lisättiin uudestaan`, 
               uusiNimi: '', uusiNumero: ''})
             })
 
@@ -77,7 +78,7 @@ class App extends React.Component {
   }
 
   removeName = (person) => {
-    const confirmation = window.confirm(`poistetaanko ${person.nimi} ?`)
+    const confirmation = window.confirm(`poistetaanko ${person.name} ?`)
     if (confirmation) {
       personsService
       .deletePerson(person)
@@ -85,7 +86,7 @@ class App extends React.Component {
         personsService
         .getAll()
         .then(response => {
-            this.setState({ persons: response.data, message: `Henkilö ${person.nimi} poistettu` })
+            this.setState({ persons: response.data, message: `Henkilö ${person.name} poistettu` })
         })
       })
       this.timeOut()
@@ -106,7 +107,7 @@ class App extends React.Component {
 
   render() {
     console.log('render')
-    const renderoitavat = this.state.persons.filter(person => person.nimi.toString().toLowerCase().includes(this.state.filter.toString().toLowerCase()))
+    const renderoitavat = this.state.persons.filter(person => person.name.toString().toLowerCase().includes(this.state.filter.toString().toLowerCase()))
     return (
       <div>
         <h1>Puhelinluettelo</h1>
