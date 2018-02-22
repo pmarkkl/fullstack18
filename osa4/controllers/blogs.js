@@ -34,8 +34,15 @@ blogRouter.get('/:id', async (req, res) => {
 
 blogRouter.delete('/:id', async (req,res) => {
   try {
-    await Blog.findByIdAndRemove(req.params.id)
-    res.status(204).end()
+    const decodedToken = jwt.verify(req.token, process.env.SECRET)
+    const blog = await Blog.findById(req.params.id)
+
+    if (blog.user.toString() === decodedToken.id) {
+      await Blog.findByIdAndRemove(req.params.id)
+      res.status(204).end()
+    } else {
+      res.status(401).json({ error: 'unauthorized attempt to remove' })
+    }
   } catch (exc) {
     console.log(exc)
     res.status(400).send({ error: 'malformatted id' })
@@ -60,15 +67,14 @@ blogRouter.post('/', async (req, res) => {
       title: req.body.title,
       author: req.body.author,
       url: req.body.url,
-      likes: req.body.likes,
+      likes: req.body.likes === undefined ? 0 : req.body.likes,
       user: user._id
     })
-    if (blog.likes === undefined) {
-      blog.likes = 0
-    }
+
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id)
     await user.save()
+
     res.status(201).json(Blog.Format(savedBlog))
   } catch (exc) {
     if (exc.name === 'JsonWebTokenError') {
