@@ -3,14 +3,6 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
-/*const getTokenFrom = (req) => {
-  const auth = req.get('authorization')
-  if (auth && auth.toLowerCase().startsWith('bearer ')) {
-    return auth.substring(7)
-  }
-  return null
-}*/
-
 blogRouter.get('/', async (req, res) => {
   const blogs = await Blog
     .find({})
@@ -44,8 +36,12 @@ blogRouter.delete('/:id', async (req,res) => {
       res.status(401).json({ error: 'unauthorized attempt to remove' })
     }
   } catch (exc) {
-    console.log(exc)
-    res.status(400).send({ error: 'malformatted id' })
+    if (exc.name === 'JsonWebTokenError') {
+      res.status(401).json({ error: exc.message })
+    } else {
+      console.log(exc)
+      res.status(400).send({ error: 'malformatted id' })
+    }
   }
 })
 
