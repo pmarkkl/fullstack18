@@ -1,3 +1,10 @@
+const Blog = require('../models/blog')
+
+const blogsInDb = async () => {
+  const blogs = await Blog.find({})
+  return blogs.map(Blog.Format)
+}
+
 const dummy = (blogs) => {
   console.log(blogs)
   return 1
@@ -21,13 +28,10 @@ const favoriteBlog = (blogs) => {
   }
 }
 
-const mostBlogs = (blogs) => {
-  return blogs.likes*3
-}
 
 module.exports = {
+  blogsInDb,
   dummy,
   totalLikes,
-  favoriteBlog,
-  mostBlogs
+  favoriteBlog
 }

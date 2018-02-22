@@ -26,21 +26,19 @@ const blogs = [
   }
 ]
 
-/*test('dummy is called', () => {
-  const blogs = []
-  const result = listHelper.dummy(blogs)
-  expect(result).toBe(1)
-})*/
-
-describe('total likes', () => {
-  test('finding out combined amount of likes from every blog', () => {
-    const result = listHelper.totalLikes(blogs)
-    expect(result).toBe(11)
+describe('dummy is called', () => {
+  test('calling of the dummy', () => {
+    const result = listHelper.dummy(blogs)
+    expect(result).toBe(1)
   })
 })
 
-describe('favorite blog', () => {
-  test('finding out the blog with most likes', () => {
+describe('4.4-4.7', () => {
+  test('4.1 totalLikes', () => {
+    const result = listHelper.totalLikes(blogs)
+    expect(result).toBe(11)
+  })
+  test('4.5 favoriteBlog', () => {
     const result = listHelper.favoriteBlog(blogs)
     expect(result).toEqual({ title: 'Go To Statement Considered Harmful',  author: 'Edsger W. Dijkstra', likes: 5 })
   })

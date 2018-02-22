@@ -1,9 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1jcHV0dGkiLCJpZCI6IjVhOGRmN2I4ZDUxNWUwMjA4OGM2ZGI4MCIsImlhdCI6MTUxOTI2MTg4M30.yVR9fikdaCBzI9-RYJwA7O58nsSXEEt6E-FOAlHs26M
 
 {
-    "title": "Kallen kalablogi",
-    "author": "Kalle Kivi",
-    "url": "https://blogspot.com",
+    "title": "PepsiMax yms. työntekoa helpottavat virvokkeet",
+    "author": "Kalle Jamal",
+    "url": "http://aksdlsa.blogspot.com",
     "likes": 0
 }
