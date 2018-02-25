@@ -1,4 +1,4 @@
-const listHelper = require('../utils/list_helper')
+const testHelper = require('../utils/testhelper')
 const blogs = [
   {
     _id: '5a422a851b54a676234d17f7',
@@ -28,18 +28,26 @@ const blogs = [
 
 describe('dummy is called', () => {
   test('calling of the dummy', () => {
-    const result = listHelper.dummy(blogs)
+    const result = testHelper.dummy(blogs)
     expect(result).toBe(1)
   })
 })
 
 describe('4.4-4.7', () => {
-  test('4.1 totalLikes', () => {
-    const result = listHelper.totalLikes(blogs)
+  test('4.4 totalLikes', () => {
+    const result = testHelper.totalLikes(blogs)
     expect(result).toBe(11)
   })
   test('4.5 favoriteBlog', () => {
-    const result = listHelper.favoriteBlog(blogs)
+    const result = testHelper.favoriteBlog(blogs)
     expect(result).toEqual({ title: 'Go To Statement Considered Harmful',  author: 'Edsger W. Dijkstra', likes: 5 })
+  })
+  test('4.6 mostBlogs', () => {
+    const result = testHelper.mostBlogs(blogs)
+    expect(result).toEqual({ author: 'Edsger W. Dijkstra', blogs: 2 })
+  })
+  test('4.7 mostLikes', () => {
+    const result = testHelper.mostLikes(blogs)
+    expect(result).toEqual({ author: 'Edsger W. Dijkstra', likes: 7 })
   })
 })

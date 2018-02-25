@@ -28,10 +28,43 @@ const favoriteBlog = (blogs) => {
   }
 }
 
+const mostBlogs = (blogs) => {
+  let counter = {}
+  blogs.forEach(blog => {
+    counter[blog.author] = counter[blog.author] === undefined ? 1 : (counter[blog.author]+1)
+  })
+  const most = Object.keys(counter).reduce(function(previous, current) {
+    return counter[previous] > counter[current] ? previous : current
+  })
+  console.log(most, counter[most])
+  return {
+    author: most,
+    blogs: counter[most]
+  }
+}
+
+const mostLikes = (blogs) => {
+  let counter = {}
+  blogs.forEach(blog => {
+    counter[blog.author] = counter[blog.author] === undefined ? 0 + blog.likes : counter[blog.author] + blog.likes
+  })
+  console.log(counter)
+  const most = Object.keys(counter).reduce(function(previous, current) {
+    return counter[previous] > counter[current] ? previous : current
+  })
+  console.log(most, counter[most])
+  return {
+    author: most,
+    likes: counter[most]
+  }
+}
+
 
 module.exports = {
   blogsInDb,
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs,
+  mostLikes
 }

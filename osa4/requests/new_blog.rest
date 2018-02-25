@@ -1,10 +1,9 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1jcHV0dGkiLCJpZCI6IjVhOGRmN2I4ZDUxNWUwMjA4OGM2ZGI4MCIsImlhdCI6MTUxOTI2MTg4M30.yVR9fikdaCBzI9-RYJwA7O58nsSXEEt6E-FOAlHs26M
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbGFtYWhhcnJpIiwiaWQiOiI1YThlMWYxOWNmZjE3YzJiOTBkMjBkYzYiLCJpYXQiOjE1MTkyNjM5MjB9.WqckNhbvIGR57MH2Bgt-nOhFGyj_m1TodmD9TTSiM_8
 
 {
-    "title": "PepsiMax yms. työntekoa helpottavat virvokkeet",
-    "author": "Kalle Jamal",
-    "url": "http://aksdlsa.blogspot.com",
-    "likes": 0
+    "title": "Kuinka voittaa taistelu väsymstä vastaan",
+    "author": "Salama Härri Itse",
+    "url": "http://ahah4h4.blogspot.com"
 }
