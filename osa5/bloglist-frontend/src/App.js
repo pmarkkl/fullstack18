@@ -2,6 +2,11 @@ import React from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
+
 
 class App extends React.Component {
   constructor(props) {
@@ -19,16 +24,21 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    blogService.getAll().then(blogs =>
-      this.setState({ blogs })
-    )
+  async componentDidMount() {
+    const sortByLikes = (a,b) => {
+      return b.likes-a.likes
+    }
+
+    const blogs = await blogService.getAll()
+    this.setState({ blogs: blogs.sort(sortByLikes) })
+
     const loggedUserJson = window.localStorage.getItem('loggedBloguser')
     if (loggedUserJson) {
       const user = JSON.parse(loggedUserJson)
       this.setState({ user, realname: user.name })
       blogService.setToken(user.token)
     }
+    console.log('component did mount')
   }
   
   handleFieldChange = (event) => {
@@ -48,7 +58,7 @@ class App extends React.Component {
       console.log(user)
     } catch (exc) {
       console.log(exc)
-      this.setState({ error: 'käyttäjätunnus tai salasana on virheellinen' })
+      this.setState({ error: 'Username or password invalid' })
       setTimeout(() => {
         this.setState({ error: null })
       }, 5000)
@@ -62,47 +72,84 @@ class App extends React.Component {
   }
 
   createBlog = async (event) => {
+    event.preventDefault()
     const blogObject = {
       title: this.state.title,
       author: this.state.author,
       url: this.state.url
     }
     const response = await blogService.create(blogObject)
-    console.log(response)
+    this.setState({ error: `a new blog '${blogObject.title}' by ${blogObject.author} added`, title: '', author: '', url: '', blogs: this.state.blogs.concat(response) })
+    setTimeout(() => {
+      this.setState({ error: null })
+    }, 5000)
+  }
+
+  like = async (blog) => {
+    const updatedObject = {
+      user: blog.user._id,
+      likes: blog.likes + 1,
+      author: blog.author,
+      url: blog.url
+    }
+    const response = await blogService.like(blog.id, updatedObject)
+    return response
+  }
+
+  delete = async (blog) => {
+    if (window.confirm(`delete ${blog.title} by ${blog.author} ?`)) {
+      await blogService.remove(blog.id)
+      this.setState({ blogs: this.state.blogs.filter(b => b.id !== blog.id) })
+    }
   }
 
   render() {
+    console.log('render')
+    const blogForm = () => {
+      return (
+      <Togglable buttonLabel="add blog">
+        <BlogForm
+          onSubmit={this.createBlog}
+          title={this.state.title}
+          author={this.state.author}
+          url={this.state.url}
+          handleFieldChange={this.handleFieldChange}
+        />
+      </Togglable>
+      )
+    }
+
+    const loginForm = () => {
+      return (
+        <LoginForm 
+          login={this.login} 
+          handleFieldChange={this.handleFieldChange} 
+          username={this.state.username} 
+          password={this.state.password} 
+        />
+      )
+    }
     if (this.state.user === null) {
       return (
         <div>
-        error: {this.state.error}<br />
-        <h1>Login to application</h1>
-        <form onSubmit={this.login}>
-          username: <input type="text" name="username" value={this.state.username} onChange={this.handleFieldChange}/><br />
-          password: <input type="password" name="password" value={this.state.password} onChange={this.handleFieldChange}/><br />
-          <button type="submit">login</button>
-        </form>
+        <Notification notification={this.state.error} />
+        {loginForm()}
         </div>
       )
     } else {
       return (
         <div>
+          <Notification notification={this.state.error} />
           <h2>blogs</h2>
           <p>{this.state.realname} logged in <button onClick={this.logout}>Logout</button></p>
+          {blogForm()}<br />
           {this.state.blogs.map(blog => 
-            <Blog key={blog.id} blog={blog}/>
+            <Blog key={blog.id} blog={blog} like={this.like} delete={this.delete} />
           )}
-          <h2>create new blog</h2>
-          <form onSubmit={this.createBlog}>
-          title: <input type="text" name="title" value={this.state.title} onChange={this.handleFieldChange}/><br />
-          author: <input type="text" name="author" value={this.state.author} onChange={this.handleFieldChange}/><br />
-          url: <input type="text" name="url" value={this.state.url} onChange={this.handleFieldChange}/><br />
-          <button type="submit">add blog</button>
-          </form>
         </div>
       )
     }
   }
 }
 
-export default App;
+export default App
