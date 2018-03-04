@@ -15,7 +15,6 @@ class Togglable extends React.Component {
   render() {
     const hideWhenVisible = { display: this.state.visible ? 'none' : '' }
     const showWhenVisible = { display: this.state.visible ? '' : 'none' }
-    console.log('current user: ', this.props.currentUser)
     return (
       <div>
         <div style={hideWhenVisible}>

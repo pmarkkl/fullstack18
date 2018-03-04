@@ -3,15 +3,20 @@ import { shallow } from 'enzyme'
 import Blog from './components/Blog'
 jest.mock('./services/blogs.js')
 
-describe.only('<SimpleBlog />', () => {
-  it('SimpleBlog test', () => {
+describe.only('<Blog />', () => {
+  it('BLOG TEST', () => {
     const blog = {
-      title: 'MeiZin Blogi',
       author: 'Petteri Markkola',
-      likes: 0
-    }
-    blog.user = {
-      realName: 'Kalle Kala'
+      title: 'PETTERIN BLOGI',
+      url: 'http://www.helsinki.fi',
+      username: 'petterim',
+      user: {
+        realName: 'Testi testi',
+        username: 'testitesti'
+      },
+      props: {
+        username: 'askdlsad'
+      }
     }
 
     const mockHandler = jest.fn()

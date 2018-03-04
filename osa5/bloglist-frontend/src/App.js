@@ -35,7 +35,7 @@ class App extends React.Component {
     const loggedUserJson = window.localStorage.getItem('loggedBloguser')
     if (loggedUserJson) {
       const user = JSON.parse(loggedUserJson)
-      this.setState({ user, realname: user.name })
+      this.setState({ user: user, realname: user.name })
       blogService.setToken(user.token)
     }
     console.log('component did mount')
@@ -55,7 +55,6 @@ class App extends React.Component {
       window.localStorage.setItem('loggedBloguser', JSON.stringify(user))
       blogService.setToken(user.token)
       this.setState({ username: '', password: '', user, realname: user.name })
-      console.log(user)
     } catch (exc) {
       console.log(exc)
       this.setState({ error: 'Username or password invalid' })
@@ -144,7 +143,7 @@ class App extends React.Component {
           <p>{this.state.realname} logged in <button onClick={this.logout}>Logout</button></p>
           {blogForm()}<br />
           {this.state.blogs.map(blog => 
-            <Blog key={blog.id} blog={blog} like={this.like} delete={this.delete} />
+            <Blog key={blog.id} blog={blog} like={this.like} delete={this.delete} user={this.state.user} />
           )}
         </div>
       )

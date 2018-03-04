@@ -37,6 +37,18 @@ class Blog extends React.Component {
       background: '#FFFFFF'
     }
 
+    let buttonVisibility
+
+    if (!this.state.blog.user) {
+      buttonVisibility = {
+        display: ''
+      }
+    } else {
+      buttonVisibility = {
+        display: this.props.user.username === this.state.blog.user.userName ? '' : 'none'
+      }
+    }
+
     return (
       <div>
         <div style={hideWhenVisible} onClick={this.toggleVisibility} className="untoggled">
@@ -46,7 +58,7 @@ class Blog extends React.Component {
           {this.state.blog.title} {this.state.blog.author}<br />
           {this.state.likes} likes <button onClick={() => this.like()}>like</button><br />
           added by {this.state.blog.user.realName}<br />
-          <button onClick={() => this.props.delete(this.state.blog)}>delete</button>
+          <button onClick={() => this.props.delete(this.state.blog)} style={buttonVisibility}>delete</button>
         </div>
       </div>
     )
