@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from 'react-router-dom'
-import { Container, Header, Table, Grid } from 'semantic-ui-react'
+import { Container, Header, Table, Grid, Form, Input, Segment, Button } from 'semantic-ui-react'
 
 const menuStyle = {
   div: {
@@ -52,10 +52,12 @@ const AnecdoteList = ({ anecdotes }) => (
 
 const Anecdote = ({ anecdote }) => {
   return (
+    <Segment inverted>
     <div>
       <h1>{anecdote.content}</h1>
       <p>has {anecdote.votes} votes</p>
     </div>
+    </Segment>
   )
 }
 
@@ -119,22 +121,23 @@ class CreateNew extends React.Component {
   render() {
     return(
       <div>
-        <h2>create a new anecdote</h2>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            content 
-            <input name='content' value={this.state.content} onChange={this.handleChange} />
-          </div>
-          <div>
-            author
-            <input name='author' value={this.state.author} onChange={this.handleChange} />
-          </div>
-          <div>
-            url for more info
-            <input name='info' value={this.state.info} onChange={this.handleChange} />
-          </div> 
-          <button>create</button>
-        </form>
+        <Header size="huge">create a new anecdote</Header>
+          <Form size="large" onSubmit={this.handleSubmit}>
+            <label>Content:</label>
+            <Form.Group>
+              <Form.TextArea name='content' value={this.state.content} onChange={this.handleChange} />
+            </Form.Group>
+            <label>Author:</label>
+            <Form.Group>
+              <Form.Input name='author' value={this.state.author} onChange={this.handleChange} />
+            </Form.Group>
+            <label>Info:</label>
+            <Form.Group>
+              <Form.Input name='info' value={this.state.info} onChange={this.handleChange} />
+            </Form.Group>
+            <Button type='submit'>Submit</Button>
+          </Form>
+
       </div>  
     )
 
@@ -169,7 +172,7 @@ class App extends React.Component {
   addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     this.setState({ anecdotes: this.state.anecdotes.concat(anecdote)})
-    this.setState({ notification: `a new anecdote ${anecdote.content} added!` })
+    this.setState({ notification: `a new anecdote '${anecdote.content}' added!` })
     setTimeout(() => this.clearNotification(), 10000)
   }
 
@@ -202,7 +205,7 @@ class App extends React.Component {
       fontSize: 24,
       padding: 10,
       border: '1px solid #202A33',
-      borderRadius: 10,
+      borderRadius: 7,
       marginBottom: 20
     }
 
@@ -218,13 +221,13 @@ class App extends React.Component {
           <div style={header}>
           <Header size="huge" textAlign="center">Software anecdotes</Header>
           </div>
-          <div style={notificationStyle}>
-            {this.state.notification}
-          </div>
           <Router>
             <div>
               <div>
                 <Menu clearNotification={ () => this.clearNotification() }/>
+                <div style={notificationStyle}>
+                  {this.state.notification}
+                </div>
                 <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes}/>} />
                 <Route path="/create" render={() =>
                   this.state.notification
