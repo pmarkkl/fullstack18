@@ -1,11 +1,27 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from 'react-router-dom'
+
+const menuStyle = {
+  div: {
+    overflow: 'hidden',
+    backgroundColor: '#202A33',
+  },
+  link: {
+    color: 'white',
+    fontSize: 30,
+    textDecoration: 'none',
+    padding: 10
+  },
+  jees: {
+    backgroundColor: '#354554' 
+  }
+}
 
 const Menu = () => (
-  <div>    
-    <Link to="/">anecdotes</Link>&nbsp;
-    <Link to="/create">create new</Link>&nbsp;
-    <Link to="/about">about</Link>&nbsp;
+  <div style={menuStyle.div}> 
+      <NavLink exact style={menuStyle.link} activeStyle={menuStyle.jees} to="/">anecdotes</NavLink>
+      <NavLink exact style={menuStyle.link} activeStyle={menuStyle.jees} to="/create">create new</NavLink>
+      <NavLink exact style={menuStyle.link} activeStyle={menuStyle.jees} to="/about">about</NavLink>
   </div>
 )
 
@@ -131,6 +147,12 @@ class App extends React.Component {
   addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     this.setState({ anecdotes: this.state.anecdotes.concat(anecdote)})
+    this.setState({ notification: `a new anecdote ${anecdote.content} added!` })
+    setTimeout(() => this.clearNotification(), 10000)
+  }
+
+  clearNotification = () => {
+    this.setState({ notification: '' })
   }
 
   anecdoteById = (id) =>
@@ -150,16 +172,32 @@ class App extends React.Component {
   }
 
   render() {
+
+    const notificationStyle = {
+      display: this.state.notification ? '' : 'none',
+      color: '#202A33',
+      fontSize: 24,
+      padding: 10,
+      border: '1px solid #202A33',
+      borderRadius: 10,
+      marginBottom: 20
+    }
+
     return (
       <div>
         <h1>Software anecdotes</h1>
-        {this.state.notification}
+        <div style={notificationStyle}>
+          {this.state.notification}
+        </div>
         <Router>
           <div>
             <div>
               <Menu />
               <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes}/>} />
-              <Route path="/create" render={() => <CreateNew addNew={this.addNew} /> } />
+              <Route path="/create" render={() =>
+                this.state.notification
+                ? <Redirect to="/" />
+                : <CreateNew addNew={this.addNew} /> } />
               <Route path="/about" render={() => <About />} />
               <Route exact path="/anecdotes/:id" render={({match}) =>
                 <Anecdote anecdote={this.anecdoteById(match.params.id)} /> } 
