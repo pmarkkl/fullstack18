@@ -1,19 +1,23 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from 'react-router-dom'
+import { Container, Header, Table, Grid } from 'semantic-ui-react'
 
 const menuStyle = {
   div: {
     overflow: 'hidden',
     backgroundColor: '#202A33',
+    marginBottom: 15,
+    paddingTop: 10,
+    paddingBottom: 10
   },
   link: {
     color: 'white',
-    fontSize: 30,
+    fontSize: 20,
     textDecoration: 'none',
     padding: 10
   },
   jees: {
-    backgroundColor: '#354554' 
+    backgroundColor: '#4d6479' 
   }
 }
 
@@ -27,13 +31,22 @@ const Menu = ({ clearNotification }) => (
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
-    <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map(anecdote => 
-      <li key={anecdote.id} >
-      <Link to={`anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
-      </li>)}
-    </ul>  
+    <Header size="large">Anecdotes</Header>
+
+    <Table celled>
+      <Table.Body>
+        {anecdotes.map(anecdote =>
+          <Table.Row key={anecdote.id}>
+            <Table.Cell>
+              <Link to={`anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+            </Table.Cell>
+            <Table.Cell>
+              {anecdote.author}
+            </Table.Cell>
+        </Table.Row>
+        )}
+      </Table.Body>
+    </Table> 
   </div>
 )
 
@@ -47,24 +60,33 @@ const Anecdote = ({ anecdote }) => {
 }
 
 const About = () => (
-  <div>
-    <h2>About anecdote app</h2>
-    <p>According to Wikipedia:</p>
-    
-    <em>An anecdote is a brief, revealing account of an individual person or an incident. 
-      Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself, 
-      such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative. 
-      An anecdote is "a story with a point."</em>
-
-    <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
-  </div>
+  <Grid>
+    <Grid.Row>
+      <Grid.Column width={11}>
+        <Header size="huge">About anecdote app</Header>
+        <p>According to Wikipedia:</p>
+        <em>An anecdote is a brief, revealing account of an individual person or an incident. 
+        Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself, 
+        such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative. 
+        An anecdote is "a story with a point."</em>
+      <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+      </Grid.Column>
+      <Grid.Column width={5}>
+      <img src="https://i.imgur.com/yPIPl5z.jpg" alt="Dennis Ritchie" />
+      </Grid.Column>
+    </Grid.Row>
+  </Grid>
 )
 
+const footerStyle = {
+  marginTop: 30
+}
+
 const Footer = () => (
-  <div>
+  <div style={footerStyle}>
     Anecdote app for <a href='https://courses.helsinki.fi/fi/TKT21009/121540749'>Full Stack -sovelluskehitys</a>.
 
-    See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the source code. 
+    See <a href='https://github.com/puhuri666/fullstack18/tree/master/osa6/routed-anecdotes'>https://github.com/puhuri666/fullstack18/tree/master/osa6/routed-anecdotes</a> for the source code. 
   </div>
 )
 
@@ -184,30 +206,40 @@ class App extends React.Component {
       marginBottom: 20
     }
 
+    const header = {
+      paddingTop: 40,
+      paddingBottom: 40,
+      backgroundColor: '#EFEFEF'
+    }
+    
     return (
-      <div>
-        <h1>Software anecdotes</h1>
-        <div style={notificationStyle}>
-          {this.state.notification}
-        </div>
-        <Router>
-          <div>
+      <Container>
+        <div>
+          <div style={header}>
+          <Header size="huge" textAlign="center">Software anecdotes</Header>
+          </div>
+          <div style={notificationStyle}>
+            {this.state.notification}
+          </div>
+          <Router>
             <div>
-              <Menu clearNotification={ () => this.clearNotification() }/>
-              <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes}/>} />
-              <Route path="/create" render={() =>
-                this.state.notification
-                ? <Redirect to="/" />
-                : <CreateNew addNew={this.addNew} /> } />
-              <Route path="/about" render={() => <About />} />
-              <Route exact path="/anecdotes/:id" render={({match}) =>
-                <Anecdote anecdote={this.anecdoteById(match.params.id)} /> } 
-              />
-            </div>
-        <Footer />
+              <div>
+                <Menu clearNotification={ () => this.clearNotification() }/>
+                <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes}/>} />
+                <Route path="/create" render={() =>
+                  this.state.notification
+                  ? <Redirect to="/" />
+                  : <CreateNew addNew={this.addNew} /> } />
+                <Route path="/about" render={() => <About />} />
+                <Route exact path="/anecdotes/:id" render={({match}) =>
+                  <Anecdote anecdote={this.anecdoteById(match.params.id)} /> } 
+                />
+              </div>
+          <Footer />
+          </div>
+          </Router>
         </div>
-        </Router>
-      </div>
+      </Container>
     );
   }
 }
