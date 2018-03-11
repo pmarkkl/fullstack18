@@ -17,11 +17,11 @@ const menuStyle = {
   }
 }
 
-const Menu = () => (
+const Menu = ({ clearNotification }) => (
   <div style={menuStyle.div}> 
-      <NavLink exact style={menuStyle.link} activeStyle={menuStyle.jees} to="/">anecdotes</NavLink>
-      <NavLink exact style={menuStyle.link} activeStyle={menuStyle.jees} to="/create">create new</NavLink>
-      <NavLink exact style={menuStyle.link} activeStyle={menuStyle.jees} to="/about">about</NavLink>
+      <NavLink exact style={menuStyle.link} onClick={clearNotification} activeStyle={menuStyle.jees} to="/">anecdotes</NavLink>
+      <NavLink exact style={menuStyle.link} onClick={clearNotification} activeStyle={menuStyle.jees} to="/create">create new</NavLink>
+      <NavLink exact style={menuStyle.link} onClick={clearNotification} activeStyle={menuStyle.jees} to="/about">about</NavLink>
   </div>
 )
 
@@ -152,6 +152,7 @@ class App extends React.Component {
   }
 
   clearNotification = () => {
+    console.log('klik clearnotification')
     this.setState({ notification: '' })
   }
 
@@ -192,7 +193,7 @@ class App extends React.Component {
         <Router>
           <div>
             <div>
-              <Menu />
+              <Menu clearNotification={ () => this.clearNotification() }/>
               <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes}/>} />
               <Route path="/create" render={() =>
                 this.state.notification
