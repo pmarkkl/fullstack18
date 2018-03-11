@@ -3,12 +3,12 @@
     {
       "content": "If it hurts, do it more often",
       "id": "47145",
-      "votes": 2
+      "votes": 17
     },
     {
       "content": "Adding manpower to a late software project makes it later!",
       "id": "21149",
-      "votes": 0
+      "votes": 1
     },
     {
       "content": "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
@@ -28,12 +28,47 @@
     {
       "content": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
       "id": "98312",
-      "votes": 0
+      "votes": 7
     },
     {
       "content": "Ahti Karjalainen oli ulkoministerivierailulla Lontoossa ja eksyi alkuyöstä Sohoon.",
-      "votes": 0,
+      "votes": 17,
       "id": "J8_DTtO"
+    },
+    {
+      "content": "Työskentelin Helsingin lähiliikennejunissa konduktöörinä.",
+      "votes": 0,
+      "id": "Nt12asV"
+    },
+    {
+      "content": "Syksyllä 2011 julkistettiin lippu-uudistus, joka käynnistyi hieman yskähdellen mm. kovan suosion vuoksi.",
+      "votes": 0,
+      "id": "qRa6ev~"
+    },
+    {
+      "content": "Vihollinen selustassa",
+      "votes": 2,
+      "id": "MhgDYQj"
+    },
+    {
+      "content": "Junamme pysähtyessä seuraavan kerran Jokelassa havaitsin lipuntarkastajien nousevan kyytiin osastoon, jossa ei lippuja myydä.",
+      "votes": 3,
+      "id": "otYXhCp"
+    },
+    {
+      "content": "Tee asynkrooninen action creator, joka mahdollistaa notifikaation antamisen.",
+      "votes": 0,
+      "id": "kbweDsZ"
+    },
+    {
+      "content": "After adding support for sync functions and testing, I came up with.",
+      "votes": 0,
+      "id": "DnrIgn4"
+    },
+    {
+      "content": "Ota paranneltu notifikaatiotapa käyttöön sovelluksessasi.",
+      "votes": 0,
+      "id": "ENh8whd"
     }
   ]
 }

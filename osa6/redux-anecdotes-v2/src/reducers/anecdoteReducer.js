@@ -1,3 +1,5 @@
+import anecdoteService from '../services/anecdotes'
+
 const anedcoteReducer = (state = [], action) => {
   if (action.type==='ANECDOTE_INIT') {
     return action.data
@@ -8,30 +10,41 @@ const anedcoteReducer = (state = [], action) => {
     return [...old, { ...voted, votes: voted.votes+1 } ]
   }
   if (action.type === 'CREATE') {
-    return [...state, { content: action.content.content, id: action.content.id, votes: 0 }]
+    console.log('ACTION TÄÄLLÄ', action)
+    return [...state, { content: action.data.content, id: action.data.id, votes: 0 }]
   }
 
   return state
 }
 
-export const anecdoteInitialization = (data) => {
-  return {
-    type: 'ANECDOTE_INIT',
-    data
+export const anecdoteInitialization = () => {
+  return async (dispatch) => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch({
+      type: 'ANECDOTE_INIT',
+      data: anecdotes
+    })
   }
 }
 
 export const anecdoteCreation = (content) => {
-  return {
-    type: 'CREATE',
-    content
+  return async (dispatch) => {
+    const newAnecdote = await anecdoteService.newAnecdote(content)
+    dispatch ({
+      type: 'CREATE',
+      data: newAnecdote
+    })
   }
 }
 
-export const vote = (id) => {
-  return {
-    type: 'VOTE',
-    id
+export const vote = (anecdote) => {
+  return async (dispatch) => {
+    const votedAnecdote = { ...anecdote, votes: anecdote.votes+1 }
+    const response = await anecdoteService.updateAnecdote(votedAnecdote.id, votedAnecdote)
+    dispatch ({
+      type: 'VOTE',
+      id: response.id
+    })
   }
 }
 

@@ -1,4 +1,5 @@
 const notificationReducer = (state = '', action) => {
+  console.log(action)
   switch (action.type) {
   case 'SET_NOTIFICATION':
     return action.notification
@@ -20,6 +21,15 @@ export const notificationChange = (notification) => {
 export const notificationClearance = () => {
   return {
     type: 'CLEAR_NOTIFICATION'
+  }
+}
+
+export const notify = (notification, timeout) => {
+  return (dispatch) => {
+    dispatch(notificationChange(notification))
+    setTimeout(() => {
+      dispatch(notificationClearance())
+    }, timeout*1000)
   }
 }
 
